@@ -32,8 +32,8 @@ services:
     volumes:
       - ./consul/config/server.json:/consul/config/config.json:ro
     #  - ./consul/data:/consul/data
-    networks:
-      - consul
+#    networks:
+#      - consul
 
   consul-worker:
     build:
@@ -42,11 +42,11 @@ services:
     command: agent -server -join consul -config-file=/consul/config/config.json
     volumes:
       - ./consul/config/client.json:/consul/config/config.json:ro
-    networks:
-      - consul
+#    networks:
+#      - consul
     depends_on:
       - consul
       
-networks:
-  consul:
-    driver: bridge
+#networks:
+#  consul:
+#    driver: bridge
