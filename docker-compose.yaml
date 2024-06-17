@@ -27,10 +27,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8500:8500
-    command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect 1 -config-file=/consul/config/config.json
+    #command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect 1 -config-file=/consul/config/config.json
+    command: agent -server -bootstrap-expect 1 -config-file=/consul/config/config.json
     volumes:
-      - ./consul/config/consul-config.json:/consul/config/config.json
-      - ./consul/data:/consul/data
+      - ./consul/config/server.json:/consul/config/config.json:ro
+    #  - ./consul/data:/consul/data
+    networks:
+      - consul
 
   consul-worker:
     build:
@@ -38,6 +41,12 @@ services:
       dockerfile: Dockerfile
     command: agent -server -join consul -config-file=/consul/config/config.json
     volumes:
-      - ./consul/config/consul-config.json:/consul/config/config.json
+      - ./consul/config/client.json:/consul/config/config.json:ro
+    networks:
+      - consul
     depends_on:
       - consul
+      
+networks:
+  consul:
+    driver: bridge

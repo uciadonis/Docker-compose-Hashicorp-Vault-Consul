@@ -3,7 +3,9 @@
     "data_dir": "/consul/data",
     "log_level": "DEBUG",
     "server": true,
-    "ui": true,
+    "ui_config": {
+		"enable": true
+	},
     "ports": {
       "dns": 53
     }
